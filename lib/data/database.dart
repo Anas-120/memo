@@ -40,7 +40,8 @@ class Database{
     }
   }
 
-  Future<void> updateNote(String uid,String title,String body,String id)async{
+  Future<void> updateNote(String title,String body,String id)async{
+    String? uid = await userid;
     try{
       await _db
         .collection(usercollection)
@@ -53,7 +54,8 @@ class Database{
     }
   }
 
-  Future<void> delete(String uid,String id)async{
+  Future<void> delete(String id)async{
+    String? uid = await userid;
     try{
       await _db
         .collection(usercollection)

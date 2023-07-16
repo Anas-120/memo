@@ -13,7 +13,6 @@ class ShowNote extends StatelessWidget {
   //final AuthController authController = Get.find<AuthController>();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController bodyController = TextEditingController();
-  var uid = FirebaseFirestore.instance.collection('Users').doc(FirebaseAuth.instance.currentUser?.uid).get().toString();
   
   @override
   Widget build(BuildContext context) {
@@ -29,12 +28,12 @@ class ShowNote extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                        Color.fromARGB(145, 255, 255, 255),
+                        Color.fromARGB(145, 23, 220, 46),
                         Color.fromARGB(255, 109, 176, 221),
                         Color.fromARGB(255, 22, 119, 222),
                         Color.fromARGB(255, 8, 105, 170),
                         Color.fromARGB(255, 109, 176, 221),
-                        Color.fromARGB(145, 255, 255, 255),
+                        Color.fromARGB(145, 23, 220, 46),
             ])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -50,7 +49,7 @@ class ShowNote extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        color: Colors.deepOrange,
+                        color: Color.fromARGB(255, 34, 255, 126),
                         onPressed: () {
                           Get.back();
                         },
@@ -59,7 +58,7 @@ class ShowNote extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                        color: Colors.deepOrange,
+                        color: Color.fromARGB(255, 34, 255, 126),
                         onPressed: () {
                           showDeleteDialog(context, noteData);
                         },
@@ -82,6 +81,7 @@ class ShowNote extends StatelessWidget {
                           ),
                           TextFormField(
                             controller: titleController,
+                            cursorColor: Colors.white,
                             maxLines: null,
                             decoration: InputDecoration.collapsed(
                               hintText: "Title",
@@ -99,6 +99,7 @@ class ShowNote extends StatelessWidget {
                           TextFormField(
                             autofocus: true,
                             controller: bodyController,
+                            cursorColor: Colors.white,
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
                             decoration: InputDecoration.collapsed(
@@ -122,7 +123,7 @@ class ShowNote extends StatelessWidget {
             onPressed: () {
               if (titleController.text != noteData.title ||
                   bodyController.text != noteData.body) {
-                Database().updateNote(uid, titleController.text, bodyController.text, noteData.id!);
+                Database().updateNote(titleController.text, bodyController.text, noteData.id!);
                 Get.back();
                 titleController.clear();
                 bodyController.clear();
@@ -138,7 +139,6 @@ class ShowNote extends StatelessWidget {
 }
 
 void showDeleteDialog(BuildContext context, noteData) {
-  var uid = FirebaseFirestore.instance.collection('Users').doc(FirebaseAuth.instance.currentUser?.uid).get().toString();
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -159,7 +159,7 @@ void showDeleteDialog(BuildContext context, noteData) {
             ),
             onPressed: () {
               Get.back();
-              Database().delete(uid, noteData.id);
+              Database().delete(noteData.id);
               Get.back(closeOverlays: true);
             },
           ),
